@@ -1,77 +1,104 @@
 # Basic Projectile Motion Simulator with Wind Effects & Air Resistance
 
-This project is a Python-based physics simulation designed to model projectile motion in realistic environments. Unlike standard textbook examples that assume a vacuum, this simulator accounts for **non-linear air resistance** and **variable wind effects**, providing a comparative visualization of different flight trajectories.
+## 1. Program Principles & Functions (程式原理與功能)
+**Score Target: 10 pts** *Explain math/physics/chemistry knowledge and provide equations.*
 
-## 1. Features & Technical Principles
+### Functions
+This program is a physics simulation tool designed to compare projectile motion under three different environmental conditions:
+1.  **Ideal Vacuum**: Only gravity acts on the object.
+2.  **Air Resistance**: Includes non-linear drag force.
+3.  **Real-world Environment**: Includes both air resistance and variable wind vectors.
 
-### Features
-* **Multi-Scenario Simulation**: Simultaneously simulates and plots three scenarios:
-    1.  Ideal Motion (Vacuum, Gravity only).
-    2.  Air Resistance (Drag force included).
-    3.  Real-world Environment (Air Resistance + Wind Speed).
-* **Customizable Inputs**: Users can define initial velocity, launch angle, wind speed (vector), mass, and drag coefficient.
-* **Data Analysis**: Automatically calculates and outputs the Maximum Height and Maximum Range for each scenario.
+The program outputs a comparative plot of trajectories and calculates the **Maximum Height** and **Maximum Range** for analysis.
 
-### Technical Principles
-The simulation avoids simple analytical solutions and instead uses **Numerical Analysis** (Time-stepping method):
-* **Gravity**: $F_g = mg$ (Downwards).
-* **Air Resistance**: Modeled using the drag equation $F_d = \frac{1}{2} \rho v^2 C_d A$. The force acts opposite to the velocity vector.
-* **Wind Effect**: The drag force is calculated based on the **relative velocity** between the object and the air, not just the ground speed:
+### Physical Principles & Equations
+Instead of using simple analytical solutions, this program employs **Numerical Analysis** (Euler’s Method) to simulate forces that change dynamically with velocity.
+
+* **Gravity Force ($F_g$)**:
+    $$\vec{F}_g = (0, -mg)$$
+* **Air Resistance ($F_d$)**:
+    modeled using the quadratic drag equation. The force direction is opposite to the relative velocity vector.
+    $$F_d = \frac{1}{2} C_d \rho A v^2$$
+* **Wind Effect (Vector Math)**:
+    Crucially, the drag force depends on the object's speed **relative to the air**, not the ground.
     $$\vec{v}_{relative} = \vec{v}_{object} - \vec{v}_{wind}$$
+* **Numerical Integration (Time-stepping)**:
+    Position and velocity are updated at every small time step ($\Delta t$):
+    $$v_{x, new} = v_{x, old} + \frac{F_x}{m} \Delta t$$
+    $$x_{new} = x_{old} + v_{x, new} \Delta t$$
 
-## 2. How to Use
+---
 
-1.  **Install Dependencies:**
-    Ensure Python 3.x is installed on your system.
-    Install the required libraries (`matplotlib` and `numpy`) using the command:
+## 2. Usage (使用方式)
+**Score Target: 5 pts**
+
+1.  **Install Dependencies**:
     ```bash
     pip install matplotlib numpy
     ```
-
-2.  **Setup:**
-    Ensure the main script file (`program.py`) is located in your current working directory.
-    No additional assets (images or sounds) are required for this physics simulation.
-
-3.  **Run the Simulation:**
-    Execute the script using Python via your terminal:
+2.  **Run the Program**:
+    Execute the main script in your terminal:
     ```bash
     python program.py
     ```
+3.  **Input Parameters**:
+    Follow the on-screen prompts to enter:
+    * Initial Velocity (m/s)
+    * Launch Angle (degrees)
+    * Wind Speed X & Y components (m/s)
+4.  **View Results**:
+    A window will pop up showing the trajectory comparison. Close the window to end the program or re-run to test new values.
 
-4.  **Simulation Instructions:**
-    * The program will prompt you to enter parameters in the terminal.
-    * **Velocity**: Enter initial speed (e.g., `50`).
-    * **Angle**: Enter launch angle in degrees (e.g., `45`).
-    * **Wind**: Enter wind speed components (e.g., `10` for tailwind, `-5` for headwind).
-    * After inputs, a Matplotlib window will open displaying the comparative trajectories.
+---
 
-5.  **Replay / Exit:**
-    * Close the graph window to end the current session.
-    * To simulate a new set of parameters, simply run the command `python program.py` again.
+## 3. Program Structure (程式架構)
+**Score Target: 5 pts** *Must correspond to the program principles.*
 
-## 3. Program Structure
+The code structure directly implements the physics principles described in Section 1:
 
-The code is organized into a modular structure for clarity:
-* **`class Projectile`**: Represents the flying object. Stores state variables like position `(x, y)`, velocity `(vx, vy)`, and physical properties (mass, area).
-* **`update_position(dt)`**: The core physics engine. It calculates net forces (Gravity + Drag) and updates velocity and position using numerical integration.
-* **`calculate_drag(wind_velocity)`**: A helper function that computes drag force based on relative air speed.
-* **`simulate()`**: The main loop that runs the time-steps until the projectile hits the ground ($y < 0$).
-* **`plot_results()`**: Handles data visualization using `matplotlib.pyplot`.
+* **`class Projectile`**: The main object representing the particle.
+    * *Properties*: Stores mass ($m$), area ($A$), position ($x, y$), and velocity ($v_x, v_y$).
+* **`def calculate_drag(self, wind_speed)`**: 
+    * **Corresponds to**: The Drag Equation & Wind Vector Math.
+    * Calculates relative velocity and returns the drag force components ($F_{d,x}, F_{d,y}$).
+* **`def update_position(self, dt)`**:
+    * **Corresponds to**: Numerical Integration (Euler's Method).
+    * Updates velocity based on net force ($F_g + F_d$) and updates position based on velocity.
+* **`def simulate(...)`**: 
+    * The main loop that iterates time steps until the projectile hits the ground ($y < 0$).
 
-## 4. Development Process
+---
 
-1.  **Ideation**: The goal was to extend basic physics class concepts by adding "real-world" factors often ignored in introductory problems.
-2.  **Core Physics**: Implemented a basic gravity-only model first to verify the parabolic path.
-3.  **Adding Drag**: Integrated the air resistance formula. Encountered challenges with vector direction; resolved by decomposing velocity into X and Y components.
-4.  **Implementing Wind**: Added wind velocity vectors. This required a significant logic change to calculate drag based on *relative* velocity rather than absolute velocity.
-5.  **Visualization**: Finalized the Matplotlib output to show all three curves (Ideal, Drag, Drag+Wind) on one chart for easy comparison.
+## 4. Development Process (開發過程)
+**Score Target: 5 pts** *Describe difficulties encountered and solutions.*
 
-## 5. References & Modifications
+* **Phase 1: Foundation**: Started by writing a basic script for vacuum projectile motion to verify the physics engine against known parabolic equations ($R = v^2 \sin(2\theta)/g$).
+* **Phase 2: Adding Drag**: Introduced the drag formula. **Difficulty**: The projectile flew backwards when $v_y$ became negative because I initially calculated drag direction incorrectly. **Solution**: I fixed this by using vector decomposition ($\cos \theta, \sin \theta$) derived from the velocity vector angle.
+* **Phase 3: Wind Implementation**: **Difficulty**: Simply adding wind speed to the object's velocity produced wrong physics. **Solution**: realized that wind modifies the *relative air speed*, which then dictates the drag force magnitude and direction. Implemented the vector subtraction logic ($\vec{v}_{rel} = \vec{v}_{obj} - \vec{v}_{wind}$).
 
-### References
-* **Physics Equations**: Halliday, Resnick, Walker, *Fundamentals of Physics* (Chapters on Projectile Motion and Drag Forces).
-* **Python Libraries**: Official documentation for [Matplotlib](https://matplotlib.org/) and [NumPy](https://numpy.org/).
+---
 
-### Modifications & AI Usage
-* **Originality**: While the basic Euler method loop is standard, the specific implementation of **vector-based wind addition** was developed for this project.
-* **AI Assistance**: LLM tools (ChatGPT/Gemini) were used to debug the relative velocity sign errors and to format this README file. (See attached conversation logs in the report for details).
+## 5. References (參考資料來源)
+**Score Target: 5 pts** *Cite sources and AI usage.*
+
+* **Physics Concepts**: Halliday, Resnick, Walker, *Fundamentals of Physics*, Chapter on Projectile Motion and Drag Forces.
+* **Coding Libraries**: 
+    * Matplotlib Documentation: https://matplotlib.org/
+    * NumPy Documentation: https://numpy.org/
+* **AI Assistance**: 
+    * **Tool**: Google Gemini / ChatGPT.
+    * **Usage**: Used LLM to debug the "Relative Velocity" sign errors, generate the initial plot styling code, and assist in formatting this README structure. (Conversation logs attached in the report).
+
+---
+
+## 6. Modifications & Enhancements (程式修改或增強內容)
+**Score Target: 10 pts** *Explain efforts to make the program useful/unique. Your specific contribution.*
+
+Unlike many basic online tutorials that strictly simulate 1D drag or vacuum motion, my contributions include:
+
+1.  **2D Wind Vector Implementation**:
+    * I manually implemented the logic to handle wind coming from any direction (X and Y components), allowing for the simulation of headwind, tailwind, and crosswind (lift/drop) effects.
+2.  **Comparative Visualization**:
+    * Modified the plotting logic to overlay three distinct curves (Vacuum / Drag / Drag+Wind) on a single chart. This makes it visually intuitive to understand "how much" distance is lost due to air resistance and wind.
+3.  **User Interactivity**:
+    * Enhanced the script from a static calculation to an interactive tool where users can experiment with different angles and wind speeds without editing the code.
