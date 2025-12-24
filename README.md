@@ -82,7 +82,7 @@ The code structure directly implements the physics principles described in Secti
     * NumPy Documentation: https://numpy.org/
 * **AI Assistance**: 
     * **Tool**: Google Gemini / ChatGPT.
-    * **Usage**: Used LLM to debug the "Relative Velocity" sign errors, generate the initial plot styling code, and assist in formatting this README structure. (Conversation logs attached in the report).
+    * **Usage**: Used LLM to debug the "Relative Velocity" sign errors, generate the initial plot styling code, and assist in formatting this README structure.
 
 ---
 
@@ -96,4 +96,5 @@ Unlike many basic online tutorials that strictly simulate 1D drag or vacuum moti
     * Modified the plotting logic to overlay three distinct curves (Vacuum / Drag / Drag+Wind) on a single chart. This makes it visually intuitive to understand "how much" distance is lost due to air resistance and wind.
 3.  **User Interactivity**:
     * Enhanced the script from a static calculation to an interactive tool where users can experiment with different angles and wind speeds without editing the code.
+
 
