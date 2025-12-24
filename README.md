@@ -1,7 +1,6 @@
 # Basic Projectile Motion Simulator with Wind Effects & Air Resistance
 
 ## 1. Program Principles & Functions (程式原理與功能)
-**Score Target: 10 pts** *Explain math/physics/chemistry knowledge and provide equations.*
 
 ### Functions
 This program is a physics simulation tool designed to compare projectile motion under three different environmental conditions:
@@ -30,7 +29,6 @@ Instead of using simple analytical solutions, this program employs **Numerical A
 ---
 
 ## 2. Usage (使用方式)
-**Score Target: 5 pts**
 
 1.  **Install Dependencies**:
     ```bash
@@ -52,7 +50,6 @@ Instead of using simple analytical solutions, this program employs **Numerical A
 ---
 
 ## 3. Program Structure (程式架構)
-**Score Target: 5 pts** *Must correspond to the program principles.*
 
 The code structure directly implements the physics principles described in Section 1:
 
@@ -70,7 +67,6 @@ The code structure directly implements the physics principles described in Secti
 ---
 
 ## 4. Development Process (開發過程)
-**Score Target: 5 pts** *Describe difficulties encountered and solutions.*
 
 * **Phase 1: Foundation**: Started by writing a basic script for vacuum projectile motion to verify the physics engine against known parabolic equations ($R = v^2 \sin(2\theta)/g$).
 * **Phase 2: Adding Drag**: Introduced the drag formula. **Difficulty**: The projectile flew backwards when $v_y$ became negative because I initially calculated drag direction incorrectly. **Solution**: I fixed this by using vector decomposition ($\cos \theta, \sin \theta$) derived from the velocity vector angle.
@@ -79,7 +75,6 @@ The code structure directly implements the physics principles described in Secti
 ---
 
 ## 5. References (參考資料來源)
-**Score Target: 5 pts** *Cite sources and AI usage.*
 
 * **Physics Concepts**: Halliday, Resnick, Walker, *Fundamentals of Physics*, Chapter on Projectile Motion and Drag Forces.
 * **Coding Libraries**: 
@@ -92,7 +87,6 @@ The code structure directly implements the physics principles described in Secti
 ---
 
 ## 6. Modifications & Enhancements (程式修改或增強內容)
-**Score Target: 10 pts** *Explain efforts to make the program useful/unique. Your specific contribution.*
 
 Unlike many basic online tutorials that strictly simulate 1D drag or vacuum motion, my contributions include:
 
@@ -102,3 +96,4 @@ Unlike many basic online tutorials that strictly simulate 1D drag or vacuum moti
     * Modified the plotting logic to overlay three distinct curves (Vacuum / Drag / Drag+Wind) on a single chart. This makes it visually intuitive to understand "how much" distance is lost due to air resistance and wind.
 3.  **User Interactivity**:
     * Enhanced the script from a static calculation to an interactive tool where users can experiment with different angles and wind speeds without editing the code.
+
